@@ -1,5 +1,5 @@
 from PIL import Image
-import hashImage
+import dhash
 import time
 import jellyfish
 
@@ -15,8 +15,8 @@ deviations = {}
 for i in range(minI,maxI):
     for path in paths:
         key = "{}:{}".format(i,path)
-        hashes[key] = hashImage.hashImage('dhashLRGBA{}'.format(i),images[path])
-        hashString = hashImage.hashToString(hashes[key])
+        hashes[key] = dhash.hashImage('dhashLRGBA{}'.format(i),images[path])
+        hashString = dhash.hashToString(hashes[key])
         print("[{}.{}]".format(
             i, path))
         if len(hashString) < (76*20):
@@ -33,11 +33,10 @@ for i in range(minI,maxI):
             #     hashString[i2 * int(len(hashString)/5): (i2 + 1) * int(len(hashString)/5)])) for i2 in range(5)]
         if 'errors' in hashes[key] and len(hashes[key]['errors']) > 0:
             [print("{}{}".format(tabString * 1, e)) for e in hashes[key]['errors'] if e['location'][-1] != 'A']
-    # time.sleep(1)
-    # if hashImage.hashToString(hashes["{}:{}".format(i,paths[0])]) != hashImage.hashToString(hashes["{}:{}".format(i,paths[1])]):
-    deviations[i] = jellyfish.hamming_distance(
-            hashImage.decodeHash(hashImage.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=5),
-            hashImage.decodeHash(hashImage.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=5) )
+    if dhash.hashToString(hashes["{}:{}".format(i,paths[0])]) != dhash.hashToString(hashes["{}:{}".format(i,paths[1])]):
+        deviations[i] = jellyfish.hamming_distance(
+            dhash.decodeHash(hashImage.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=5),
+            dhash.decodeHash(hashImage.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=5) )
     print("{}Deviation: {} / {} = {}".format(
         tabString * 1,
         deviations[i],
