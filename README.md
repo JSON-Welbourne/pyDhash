@@ -7,26 +7,17 @@ Written in Python
 hashImage(<hashMethod><hashChannels><hashSize>,<image>)
 
 hashMethods
+    dhash
   
-  dhash
-  
-hashChannels
-  
-  A string consisting of any of the following letters in any order
-  
-  L - Luminance
-  
-  R - Red
-  
-  G - Green
-  
-  B - Blue
-  
-  A - Alpha
+hashChannels - A string consisting of any of the following letters in any order
+    L - Luminance
+    R - Red
+    G - Green
+    B - Blue
+    A - Alpha
   
 hashSize
-  
-  any integer greater than   
+    any integer greater than   
  
 Examples:
 
