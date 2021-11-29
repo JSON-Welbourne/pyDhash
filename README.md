@@ -10,10 +10,15 @@ hashMethods
     dhash
   
 hashChannels - A string consisting of any of the following letters in any order
+    
     L - Luminance
+    
     R - Red
+    
     G - Green
+    
     B - Blue
+    
     A - Alpha
   
 hashSize
