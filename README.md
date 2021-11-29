@@ -7,6 +7,7 @@ Written in Python
 hashImage(<hashMethod><hashChannels><hashSize>,<image>)
 
 hashMethods
+    
     dhash
   
 hashChannels - A string consisting of any of the following letters in any order
@@ -22,11 +23,15 @@ hashChannels - A string consisting of any of the following letters in any order
     A - Alpha
   
 hashSize
+    
     any integer greater than   
  
-Examples:
+Usage:
 
-import hash
-image = '/path/to/image'
-r = hash.hashImage("dhashLRGBA9",image)
-print(r)
+    import hash
+    
+    image = '/path/to/image'
+    
+    r = hash.hashImage("dhashLRGBA9",image)
+    
+    print(r)
