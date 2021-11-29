@@ -4,7 +4,7 @@ Multibase Perceptual Hash for Images
 
 Written in Python
 
-hashImage(<hashMethod><hashChannels><hashSize>,<image>)
+hashImage({hashMethod}{hashChannels}{hashSize},{image})
 
 hashMethods
     
