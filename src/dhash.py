@@ -2,6 +2,15 @@ from PIL import Image
 import base64
 import math
 
+config = {
+    'defaultBase':  64,
+    'resizeFlags':  Image.ANTIALIAS,
+    'supportedChannels': [
+        'L',
+        'RGBA',
+        'HSV',
+        'CMYK', ], }
+
 def decodeHash(hashString,parts = 4):
     return ''.join(["{:08b}".format(b) for i in range(parts) for b in base64.b64decode(
         hashString[i*int(len(hashString)/parts):(i+1)*int(len(hashString)/parts)])])
@@ -9,7 +18,7 @@ def decodeHash(hashString,parts = 4):
 def hashToString(hash):
     return "".join([v for k,v in hash['output'].items()])
 
-def hashImage(method,image,outputFormat="base64"):
+def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config['resizeFlags']):
     errors = []
     output = {}
     if type(image) == str:
@@ -20,42 +29,43 @@ def hashImage(method,image,outputFormat="base64"):
     if 'PIL.' in str(type(image)):        
         try:
             if method.startswith('dhash'):
-                channels = [c for c in method[5:] if c in 'LRGBA']
+                channels = [c for c in method[5:] if c in "".join(config['supportedChannels'])]
                 size = int(method[5+len(channels):])
                 size = size if size >= 2 else 2
                 width = size + 1
                 height = size + 1
                 for channel in channels:
-                    try:
-                        channel_data = list((
-                                image.convert("L") 
-                                if channel == 'L' 
-                                else image.getchannel(channel))
-                            .resize((width, height), Image.ANTIALIAS)
-                            .getdata())
+                    try:                        
+                        for channelGroup in config['supportedChannels']:
+                            if channel in channelGroup:
+                                channelData = list(image
+                                   .convert(channelGroup)
+                                   .getchannel(channel)
+                                   .resize((width,height), resizeFlags)
+                                   .getdata())
                         hash = {
                             'row': 0,
                             'col': 0, }
                         for y in range(size):
                             for x in range(size):
                                 offset = y * width + x
-                                hash['row'] = hash['row'] << 1 | (channel_data[offset] < channel_data[offset + 1])
-                                hash['col'] = hash['col'] << 1 | (channel_data[offset] < channel_data[offset + width])
+                                hash['row'] = hash['row'] << 1 | (channelData[offset] < channelData[offset + 1])
+                                hash['col'] = hash['col'] << 1 | (channelData[offset] < channelData[offset + width])
                         data = (hash['row'] << (size * size) | hash['col'])
                     except Exception as e:
                         data = 0
                         errors.append({
                             'location':'{}.{}'.format(method,channel),
                             'error':str(e),})                    
-                    if outputFormat == 'base64':
-                        bytesNeeded = math.ceil(((size)**2)/4)
-                        output[channel] = base64.b64encode(data.to_bytes(bytesNeeded,'big')).decode("utf-8") # Base 64
-                    elif outputFormat in ['base10','decimal','denary']:
+                    if outputFormat in [10,'10','base10','decimal','denary']:
                         bytesNeeded = len(str(data))
                         output[channel] = str(data)
-                    elif outputFormat in ['base16','hex','hexadecimal']:
+                    elif outputFormat in [16,'16','base16','hex','hexadecimal']:
                         bytesNeeded = math.ceil(((size)**2)/4)
                         output[channel] = "%0{}X".format(int(bytesNeeded/2)) % (data) # Base 16 (Hex)
+                    elif outputFormat in [64,'64','base64']:
+                        bytesNeeded = math.ceil(((size)**2)/4)
+                        output[channel] = base64.b64encode(data.to_bytes(bytesNeeded,'big')).decode("utf-8") # Base 64
                     else:
                         errors.append({
                             'location': 'Convert Hash to String',
@@ -63,7 +73,7 @@ def hashImage(method,image,outputFormat="base64"):
             else:
                 errors.append({
                     'location':'Main',
-                    'error':'Method NOT Recognized',})
+                    'error':'Hash Method NOT Recognized',})
         except Exception as e:
             errors.append({
                 'location': 'Main',
