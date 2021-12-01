@@ -23,6 +23,20 @@ hashChannels - A string consisting of any of the following letters in any order
     B - Blue
     
     A - Alpha
+    
+    H - Hue
+    
+    S - Saturation
+    
+    V
+    
+    C
+    
+    M
+    
+    Y
+    
+    K
   
 hashSize
     
