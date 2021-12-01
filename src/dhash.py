@@ -21,30 +21,39 @@ def hashImage(method,image,outputFormat="base64"):
             s = {}
             for channel in channels:
                 try:
-                    channel_image = image.convert("L") if channel == 'L' else image.getchannel(channel)
-                    small_image = channel_image.resize((width, height), Image.ANTIALIAS)
-                    channel_data = list(small_image.getdata())
-                    row_hash = 0
-                    col_hash = 0
+                    channel_data = list((
+                            image.convert("L") 
+                            if channel == 'L' 
+                            else image.getchannel(channel))
+                        .resize((width, heigh), Image.ANTIALIAS)
+                        .getdata())
+                    hash = {
+                        'row': 0,
+                        'col': 0, }
                     for y in range(size):
                         for x in range(size):
                             offset = y * width + x
-                            row_bit = channel_data[offset] < channel_data[offset + 1]
-                            row_hash = row_hash << 1 | row_bit
-                            col_bit = channel_data[offset] < channel_data[offset + width]
-                            col_hash = col_hash << 1 | col_bit
-                    data = (row_hash << (size * size) | col_hash)
+                            hash['row'] = hash['row'] << 1 | (channel_data[offset] < channel_data[offset + 1])
+                            hash['col'] = hash['col'] << 1 | (channel_data[offset] < channel_data[offset + width])
+                    data = (hash['row'] << (size * size) | hash['col'])
                 except Exception as e:
                     data = 0
                     errors.append({
                         'location':'{}.{}'.format(method,channel),
-                        'error':str(e),})
+                        'error':str(e),})                    
                 if outputFormat == 'base64':
                     bytesNeeded = math.ceil(((size)**2)/4)
                     s[channel] = base64.b64encode(data.to_bytes(bytesNeeded,'big')).decode("utf-8") # Base 64
-                elif outputFormat in ['hex','base16']:
+                elif outputFormat in ['base10','decimal','denary']:
+                    bytesNeeded = len(str(data))
+                    s[channel] = str(data)
+                elif outputFormat in ['base16','hex','hexadecimal']:
                     bytesNeeded = math.ceil(((size)**2)/4)
                     s[channel] = "%0{}X".format(int(bytesNeeded/2)) % (data) # Base 16 (Hex)
+                else:
+                    errors.append({
+                        'location': 'Convert Hash to String',
+                        'error': 'Output Format Not Recognized', })
             return {'output':s,'errors':errors}
         else:
             errors.append({
