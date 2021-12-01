@@ -26,6 +26,18 @@ Usage:
     
     image = '/path/to/image'
     
-    r = hash.hashImage("dhashLRGBA9",image)
+    hash.hashImage("dhashLRGBA9",image)
     
-    print(r)
+    hash.hashImage("dhashL8",image)
+    
+    hash.hashImage("dhashHSV19",image)
+    
+    hash.hashImage("dhashRGB8",image)
+    
+    hash.hashImage("dhashLRGBAHSVCMYK9",image)
+    
+    hash.hashImage("dhashBAG9",image)
+    
+    hash.hashImage("dhashSLAKY13",image)
+    
+    
