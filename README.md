@@ -4,6 +4,8 @@ Multibase Perceptual Hash for Images
 
 Written in Python
 
+Inspired by http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
+
 hashImage({hashMethod}{hashChannels}{hashSize},{image})
 
 hashMethods
@@ -24,7 +26,7 @@ hashChannels - A string consisting of any of the following letters in any order
   
 hashSize
     
-    any integer greater than   
+    any integer greater than 1
  
 Usage:
 
