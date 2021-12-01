@@ -14,30 +14,8 @@ hashMethods
   
 hashChannels - A string consisting of any of the following letters in any order
     
-    L - Luminance
-    
-    R - Red
-    
-    G - Green
-    
-    B - Blue
-    
-    A - Alpha
-    
-    H - Hue
-    
-    S - Saturation
-    
-    V
-    
-    C
-    
-    M
-    
-    Y
-    
-    K
-  
+    L   R G B A   H S V   C M Y K
+
 hashSize
     
     any integer greater than 1
