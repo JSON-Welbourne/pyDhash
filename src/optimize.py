@@ -58,13 +58,22 @@ def main(**kwargs):
     #         or (int(10000 * (v / (5 * 2 * k ** 2))) >= int(10000 * (deviations[max([k2 for k2 in deviations.keys() if k2 < k])] / (5 * 2 * (max([k2 for k2 in deviations.keys() if k2 < k])) ** 2))))
     #     and (k >= maxI 
     #         or int(10000 * (v / (5 * 2 * k ** 2))) >= int(10000 * (deviations[min([k2 for k2 in deviations.keys() if k2 > k])] / (5 * 2 * (min([k2 for k2 in deviations.keys() if k2 > k])) ** 2))))))}
-#     deviations = {
-#         k:v for k,v in deviations.items() 
-#         if ((k == minI or k > maxI)
-#             or all([
-#                 int(10000 * (v / (hashChannels * 2 * k ** 2))) >= 
-#                 int(10000 * (deviations[k2] / (hashChannels * 2 * k2 ** 2)))
-#                 for k2 in deviations.keys() if k2 < k]))}
+    for k,v in deviations.items():
+        print("{}{}: {}{} / {}{} = {}".format(
+            tabString * 1,
+            k,
+            " " * (max([len(str(k1)) + len(str(v1)) for k1,v1 in deviations.items()]) - len(str(k)) - len(str(v))),
+            v, hashChannels * 2 * k ** 2,
+            " " * (max([len(str(hashChannels*2*k1**2)) for k1 in deviations.keys() ]) - len(str(hashChannels*2*k**2))),
+            int(10000 * (v / (hashChannels * 2 * k ** 2)))/100 ))
+    print("Summary of Hash `{}`.format(hashType))
+    deviations = {
+        k:v for k,v in deviations.items() 
+        if ((k == minI or k > maxI)
+            or all([
+                int(10000 * (v / (hashChannels * 2 * k ** 2))) >= 
+                int(10000 * (deviations[k2] / (hashChannels * 2 * k2 ** 2)))
+                for k2 in deviations.keys() if k2 < k]))}
     for k,v in deviations.items():
         print("{}{}: {}{} / {}{} = {}".format(
             tabString * 1,
