@@ -58,13 +58,13 @@ def main(**kwargs):
     #         or (int(10000 * (v / (5 * 2 * k ** 2))) >= int(10000 * (deviations[max([k2 for k2 in deviations.keys() if k2 < k])] / (5 * 2 * (max([k2 for k2 in deviations.keys() if k2 < k])) ** 2))))
     #     and (k >= maxI 
     #         or int(10000 * (v / (5 * 2 * k ** 2))) >= int(10000 * (deviations[min([k2 for k2 in deviations.keys() if k2 > k])] / (5 * 2 * (min([k2 for k2 in deviations.keys() if k2 > k])) ** 2))))))}
-    deviations = {
-        k:v for k,v in deviations.items() 
-        if ((k == minI or k > maxI)
-            or all([
-                int(10000 * (v / (hashChannels * 2 * k ** 2))) >= 
-                int(10000 * (deviations[k2] / (hashChannels * 2 * k2 ** 2)))
-                for k2 in deviations.keys() if k2 < k]))}
+#     deviations = {
+#         k:v for k,v in deviations.items() 
+#         if ((k == minI or k > maxI)
+#             or all([
+#                 int(10000 * (v / (hashChannels * 2 * k ** 2))) >= 
+#                 int(10000 * (deviations[k2] / (hashChannels * 2 * k2 ** 2)))
+#                 for k2 in deviations.keys() if k2 < k]))}
     for k,v in deviations.items():
         print("{}{}: {}{} / {}{} = {}".format(
             tabString * 1,
