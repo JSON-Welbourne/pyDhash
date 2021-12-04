@@ -14,6 +14,7 @@ defaultConfig = {
 
 def main(**kwargs):
     hashType = kwargs.get('hashType')
+    hashChannels = len(hashType)-5
     paths = kwargs.get('images')    
     minI = kwargs.get('min')
     maxI = kwargs.get('max')
@@ -29,11 +30,11 @@ def main(**kwargs):
             print("[{}.{}]".format(
                 i, path))
             if len(hashString) < (76*20):
-                lines = int((len(hashString)/5) ** (1/2))
+                lines = int((len(hashString)/hashChannels) ** (1/2))
                 [print("    {}".format(
                     " ".join([
-                        hashString[(hashPart * int(len(hashString)/5)) + (hashLine * int(len(hashString)/(5*lines))) :
-                                   (hashPart * int(len(hashString)/5)) + ((hashLine + 1) * int(len(hashString)/(5*lines)))]
+                        hashString[(hashPart * int(len(hashString)/hashChannels)) + (hashLine * int(len(hashString)/(hashChannels*lines))) :
+                                   (hashPart * int(len(hashString)/hashChannels)) + ((hashLine + 1) * int(len(hashString)/(hashChannels*lines)))]
                         for hashPart in range(5)])))
                     for hashLine in range(lines)]
             else:
@@ -44,13 +45,13 @@ def main(**kwargs):
                 [print("{}{}".format(tabString * 1, e)) for e in hashes[key]['errors'] if e['location'][-1] != 'A']
         if dhash.hashToString(hashes["{}:{}".format(i,paths[0])]) != dhash.hashToString(hashes["{}:{}".format(i,paths[1])]):
             deviations[i] = jellyfish.hamming_distance(
-                dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=5),
-                dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=5) )
+                dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=hashChannels),
+                dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=hashChannels) )
         print("{}Deviation: {} / {} = {}".format(
             tabString * 1,
             deviations[i],
-            5 * 2 * i ** 2,
-            int(10000 * deviations[i] / (5 * 2 * i ** 2))/100))
+            hashChannels * 2 * i ** 2,
+            int(10000 * deviations[i] / (hashChannels * 2 * i ** 2))/100))
     # deviations = {
     #     k:v for k,v in deviations.items() 
     #     if ((k == minI
@@ -61,17 +62,17 @@ def main(**kwargs):
         k:v for k,v in deviations.items() 
         if ((k == minI or k > maxI)
             or all([
-                int(10000 * (v / (5 * 2 * k ** 2))) >= 
-                int(10000 * (deviations[k2] / (5 * 2 * k2 ** 2)))
+                int(10000 * (v / (hashChannels * 2 * k ** 2))) >= 
+                int(10000 * (deviations[k2] / (hashChannels * 2 * k2 ** 2)))
                 for k2 in deviations.keys() if k2 < k]))}
     for k,v in deviations.items():
         print("{}{}: {}{} / {}{} = {}".format(
             tabString * 1,
             k,
             " " * (max([len(str(k1)) + len(str(v1)) for k1,v1 in deviations.items()]) - len(str(k)) - len(str(v))),
-            v, 5 * 2 * k ** 2,
-            " " * (max([len(str(5*2*k1**2)) for k1 in deviations.keys() ]) - len(str(5*2*k**2))),
-            int(10000 * (v / (5 * 2 * k ** 2)))/100 ))
+            v, hashChannels * 2 * k ** 2,
+            " " * (max([len(str(hashChannels*2*k1**2)) for k1 in deviations.keys() ]) - len(str(hashChannels*2*k**2))),
+            int(10000 * (v / (hashChannels * 2 * k ** 2)))/100 ))
 
 if __name__ == "__main__":
     import sys
