@@ -44,8 +44,8 @@ def main(**kwargs):
                 [print("{}{}".format(tabString * 1, e)) for e in hashes[key]['errors'] if e['location'][-1] != 'A']
         if dhash.hashToString(hashes["{}:{}".format(i,paths[0])]) != dhash.hashToString(hashes["{}:{}".format(i,paths[1])]):
             deviations[i] = jellyfish.hamming_distance(
-                dhash.decodeHash(hashImage.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=5),
-                dhash.decodeHash(hashImage.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=5) )
+                dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=5),
+                dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=5) )
         print("{}Deviation: {} / {} = {}".format(
             tabString * 1,
             deviations[i],
