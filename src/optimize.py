@@ -66,7 +66,7 @@ def main(**kwargs):
             v, hashChannels * 2 * k ** 2,
             " " * (max([len(str(hashChannels*2*k1**2)) for k1 in deviations.keys() ]) - len(str(hashChannels*2*k**2))),
             int(10000 * (v / (hashChannels * 2 * k ** 2)))/100 ))
-    print("Summary of Hash `{}`.format(hashType))
+    print("Summary of Hash `{}`".format(hashType))
     deviations = {
         k:v for k,v in deviations.items() 
         if ((k == minI or k > maxI)
