@@ -5,7 +5,7 @@ import time
 import jellyfish
 
 defaultConfig = {
-    'min':          1,
+    'min':          2,
     'max':          100,
     'hashType':     "dhashL",
     'tabString':    "    ",
