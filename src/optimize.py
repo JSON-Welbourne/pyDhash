@@ -9,8 +9,8 @@ defaultConfig = {
     'max':          100,
     'hashType':     "dhashL",
     'tabString':    "    ",
-    'images':       [   "/home/flask/images/ABPID00001.jpg",
-                        "/home/flask/images/ABPID00002.jpg", ], }
+    'images':       [   '/home/flask/images/cache/ABPDP/crqqqyprfikvstylhlhp.jpg',
+                        '/home/flask/images/cache/ABPWM/24142.jpg', ], }
 
 def main(**kwargs):
     hashType = kwargs.get('hashType')
@@ -19,7 +19,13 @@ def main(**kwargs):
     minI = kwargs.get('min')
     maxI = kwargs.get('max')
     tabString = kwargs.get('tabString')
-    images = {p:Image.open(p) for p in paths if os.path.isfile(p)}
+    images = {}
+    for p in paths:
+        if os.path.isfile(p):
+            print("Found `{}`".format(image))
+            images[p] = Image.open(p)
+        else:
+            print("Unable to find `{}`".format(image))
     hashes = {}
     deviations = {}
     for i in range(minI,maxI):
@@ -103,7 +109,7 @@ if __name__ == "__main__":
             if config['images'] == defaultConfig['images']:
                 config['images'] = []
             config['images'].append(a)
-    try:
+    try:                
         main(**config)
     except Exception as e:
         print("ERROR: {}".format(e))
