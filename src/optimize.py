@@ -22,10 +22,10 @@ def main(**kwargs):
     images = {}
     for p in paths:
         if os.path.isfile(p):
-            print("Found `{}`".format(image))
+            print("Found `{}`".format(p))
             images[p] = Image.open(p)
         else:
-            print("Unable to find `{}`".format(image))
+            print("Unable to find `{}`".format(p))
     hashes = {}
     deviations = {}
     for i in range(minI,maxI):
