@@ -77,7 +77,9 @@ if __name__ == "__main__":
     import sys
     config = defaultConfig
     for i,a in enumerate(sys.argv):
-        if a.startswith('dhash'):
+        if i == 0 or i == 1:
+            pass
+        elif a.startswith('dhash'):
             config['hashType'] = a
         elif a == 'min':
             config['minArg'] = i
