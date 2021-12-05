@@ -78,7 +78,7 @@ def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config
                         for b in base64.b64decode(
                             output['string'][
                                 i * int( len(output['string']) / len(channels) ) : 
-                                (i + 1) * int( len(output['string']) / len(channels) ) ] )
+                                (i + 1) * int( len(output['string']) / len(channels) ) ] ) ] )
             else:
                 errors.append({
                     'location':'Main',
