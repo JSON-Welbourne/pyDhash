@@ -38,7 +38,7 @@ def main(**kwargs):
                 try:
                     key = "{}:{}".format(i,path)
                     hashes[key] = dhash.hashImage('{}{}'.format(hashType,i),images[path])
-                    hashString = dhash.hashToString(hashes[key])
+                    hashString = hashes[key]['string']
                     print("[{}.{}]".format(
                         i, path))
                     if len(hashString) < (76*20):
@@ -59,8 +59,8 @@ def main(**kwargs):
                     print("ERROR, path = {}: {}".format(path,e))
             if dhash.hashToString(hashes["{}:{}".format(i,paths[0])]) != dhash.hashToString(hashes["{}:{}".format(i,paths[1])]):
                 deviations[i] = jellyfish.hamming_distance(
-                    dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[0])]), parts=hashChannels),
-                    dhash.decodeHash(dhash.hashToString(hashes["{}:{}".format(i,paths[1])]), parts=hashChannels) )
+                    hashes["{}:{}".format(i,paths[0])]['decoded'],
+                    hashes["{}:{}".format(i,paths[1])]['decoded'] )
             print("{}Deviation: {} / {} = {}".format(
                 tabString * 1,
                 deviations[i],
