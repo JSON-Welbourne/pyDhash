@@ -20,6 +20,7 @@ def main(**kwargs):
     maxI = kwargs.get('max')
     tabString = kwargs.get('tabString')
     images = {}
+    print("hashChannels:    {}".format(hashChannels))
     for p in paths:
         try:
             if os.path.isfile(p):
