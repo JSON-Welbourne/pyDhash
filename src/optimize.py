@@ -38,7 +38,7 @@ def main(**kwargs):
                 try:
                     key = "{}:{}".format(i,path)
                     hashes[key] = dhash.hashImage('{}{}'.format(hashType,i),images[path])
-                    hashString = hashes[key]['string']
+                    hashString = hashes[key]['output']['string']
                     print("[{}.{}]".format(
                         i, path))
                     if len(hashString) < (76*20):
@@ -57,10 +57,10 @@ def main(**kwargs):
                         [print("{}{}".format(tabString * 1, e)) for e in hashes[key]['errors'] if e['location'][-1] != 'A']
                 except Exception as e:
                     print("ERROR, path = {}: {}".format(path,e))
-            if hashes["{}:{}".format(i,paths[0])]['string'] != hashes["{}:{}".format(i,paths[1])]['string']:
+            if hashes["{}:{}".format(i,paths[0])]['output']['decoded'] != hashes["{}:{}".format(i,paths[1])]['output']['decoded']:
                 deviations[i] = jellyfish.hamming_distance(
-                    hashes["{}:{}".format(i,paths[0])]['decoded'],
-                    hashes["{}:{}".format(i,paths[1])]['decoded'] )
+                    hashes["{}:{}".format(i,paths[0])]['output']['decoded'],
+                    hashes["{}:{}".format(i,paths[1])]['output']['decoded'] )
             print("{}Deviation: {} / {} = {}".format(
                 tabString * 1,
                 deviations[i],
