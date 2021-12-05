@@ -74,7 +74,7 @@ def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config
                 if outputFormat in [64,'64','base64']:                
                     output['decoded'] = ''.join([
                         "{:08b}".format(b) 
-                        for i in range(parts) 
+                        for i in range(len(channels)) 
                         for b in base64.b64decode(
                             output['string'][
                                 i * int( len(output['string']) / len(channels) ) : 
