@@ -70,14 +70,15 @@ def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config
                         errors.append({
                             'location': 'Convert Hash to String',
                             'error': 'Output Format Not Recognized', })
-                output['string'] = "".join([c for c in output.values()])
-                output['decoded'] = ''.join([
-                    "{:08b}".format(b) 
-                    for i in range(parts) 
-                    for b in base64.b64decode(
-                        output['string'][
-                            i * int( len(output['string']) / len(channels) ) : 
-                            (i + 1) * int( len(output['string']) / len(channels) ) ] )
+                output['string'] = "".join([output[c] for c in channels])
+                if outputFormat in [64,'64','base64']:                
+                    output['decoded'] = ''.join([
+                        "{:08b}".format(b) 
+                        for i in range(parts) 
+                        for b in base64.b64decode(
+                            output['string'][
+                                i * int( len(output['string']) / len(channels) ) : 
+                                (i + 1) * int( len(output['string']) / len(channels) ) ] )
             else:
                 errors.append({
                     'location':'Main',
