@@ -11,13 +11,6 @@ config = {
         'HSV',
         'CMYK', ], }
 
-def decodeHash(hashString,parts = 4):
-    return ''.join(["{:08b}".format(b) for i in range(parts) for b in base64.b64decode(
-        hashString[i*int(len(hashString)/parts):(i+1)*int(len(hashString)/parts)])])
-
-def hashToString(hash):
-    return "".join([v for k,v in hash['output'].items()])
-
 def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config['resizeFlags']):
     errors = []
     output = {}
