@@ -3,15 +3,16 @@ import base64
 import math
 
 config = {
-    'defaultBase':  64,
-    'resizeFlags':  Image.ANTIALIAS,
+    'hashType':        'dhashLRGBA9', 
+    'outputBase':      64,
+    'resizeFlags':      Image.ANTIALIAS,
     'supportedChannels': [
         'L',
         'RGBA',
         'HSV',
         'CMYK', ], }
 
-def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config['resizeFlags']):
+def hashImage(image,method=config['hashType'],outputFormat=config['outputBase'],resizeFlags=config['resizeFlags']):
     errors = []
     output = {}
     if type(image) == str:
@@ -99,6 +100,9 @@ if __name__ == "__main__":
             config['hashType'] = a
         else:
             config['images'].append(a)
+    print("Configuration:")
+    for k,v in config.items():
+        print("{}{}: {}".format("    ",k,v))
     try:                
         for image in config['images']:
             print("Image `{}`".format(image))
