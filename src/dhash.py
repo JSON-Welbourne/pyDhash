@@ -91,6 +91,7 @@ if __name__ == "__main__":
     import sys
     import os
     # config = defaultConfig
+    config['images'] = []
     for i,a in enumerate(sys.argv):
         if i == 0:
             pass
