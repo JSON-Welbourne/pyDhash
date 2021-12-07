@@ -13,7 +13,6 @@ config = {
         'CMYK', ], }
 
 def hashImage(image,method=config['method'],outputFormat=config['outputBase'],resizeFlags=config['resizeFlags']):
-    method = kwargs.get
     errors = []
     output = {}
     if type(image) == str:
