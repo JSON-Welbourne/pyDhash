@@ -13,7 +13,7 @@ config = {
         'CMYK', ], }
 
 def hashImage(image,method=config['method'],outputFormat=config['outputBase'],resizeFlags=config['resizeFlags']):
-    
+    method = kwargs.get
     errors = []
     output = {}
     if type(image) == str:
@@ -109,9 +109,9 @@ if __name__ == "__main__":
             print("Image `{}`".format(image))
             if os.path.isfile(image):
                 h = hashImage(image,method=config['method'])
-                for k,v in hashImage(image)['output'].items():
+                for k,v in h['output'].items():
                     print("{}{}: {}".format("    ",k,v))
-                for v in hashImage(image)['errors']:
+                for v in h['errors']:
                     print("{}ERROR: {}".format("    ",v))
             else:
                 print("{}ERROR: {}".format("    ","'{}' does not exist".format(image)))
