@@ -3,8 +3,8 @@ import base64
 import math
 
 config = {
-    'hashType':        'dhashLRGBA9', 
-    'outputBase':      64,
+    'method':           'dhashLRGBA9', 
+    'outputBase':       64,
     'resizeFlags':      Image.ANTIALIAS,
     'supportedChannels': [
         'L',
@@ -12,7 +12,8 @@ config = {
         'HSV',
         'CMYK', ], }
 
-def hashImage(image,method=config['hashType'],outputFormat=config['outputBase'],resizeFlags=config['resizeFlags']):
+def hashImage(image,method=config['method'],outputFormat=config['outputBase'],resizeFlags=config['resizeFlags']):
+    
     errors = []
     output = {}
     if type(image) == str:
@@ -97,7 +98,7 @@ if __name__ == "__main__":
         if i == 0:
             pass
         elif a.startswith('dhash'):
-            config['hashType'] = a
+            config['method'] = a
         else:
             config['images'].append(a)
     print("Configuration:")
@@ -107,7 +108,7 @@ if __name__ == "__main__":
         for image in config['images']:
             print("Image `{}`".format(image))
             if os.path.isfile(image):
-                h = hashImage(image)
+                h = hashImage(image,method=config['method'])
                 for k,v in hashImage(image)['output'].items():
                     print("{}{}: {}".format("    ",k,v))
                 for v in hashImage(image)['errors']:
