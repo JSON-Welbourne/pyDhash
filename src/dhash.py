@@ -85,3 +85,29 @@ def hashImage(method,image,outputFormat=config['defaultBase'],resizeFlags=config
             'location': 'Main',
             'error': 'Invalid Image',})
     return {'output':output,'errors':errors}
+
+
+if __name__ == "__main__":
+    import sys
+    import os
+    # config = defaultConfig
+    for i,a in enumerate(sys.argv):
+        if i == 0:
+            pass
+        elif a.startswith('dhash'):
+            config['hashType'] = a
+        else:
+            config['images'].append(a)
+    try:                
+        for image in config['images']:
+            print("Image `{}`".format(image))
+            if os.path.isfile(image):
+                h = hashImage(image)
+                for k,v in hashImage(image)['output'].items():
+                    print("{}{}: {}".format("    ",k,v))
+                for v in hashImage(image)['errors']:
+                    print("{}ERROR: {}".format("    ",v))
+            else:
+                print("{}ERROR: {}".format("    ","'{}' does not exist".format(image)))
+    except Exception as e:
+        print("ERROR: {}".format(e))
